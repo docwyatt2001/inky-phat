@@ -61,6 +61,11 @@ WHITE = 0
 BLACK = 1
 RED = 2
 
+BORDERS = {
+    0b01000000: 0x33, 0b10000000: 0xFF, 0b11000000: 0x00,
+    WHITE: 0b10000000, BLACK: 0b11000000, RED: 0b01000000
+}
+
 class Inky212x104:
 
     def __init__(self, resolution=(104, 212), cs_pin=CS0_PIN, dc_pin=DC_PIN, reset_pin=RESET_PIN, busy_pin=BUSY_PIN, h_flip=False, v_flip=False):
@@ -144,12 +149,8 @@ class Inky212x104:
 
         # Border control
         self._send_command(0x3c, 0x00)
-        if self.border == 0b11000000:
-            self._send_command(0x3c, 0x00)
-        elif self.border == 0b01000000:
-            self._send_command(0x3c, 0x33)
-        elif self.border == 0b10000000:
-            self._send_command(0x3c, 0xFF)
+        if self.border in BORDERS:
+            self._send_command(0x3c, BORDERS[self.border])
 
         VSS  = 0b00
         VSH1 = 0b01
@@ -327,16 +328,7 @@ class Inky212x104:
             raise ValueError("This Inky pHAT display does not support partial updates")
 
     def set_border(self, border):
-        if border in self.palette:
-            c = self.palette[border]
-            if c == BLACK:
-                self.border = 0b11000000
-            if c == RED:
-                self.border = 0b01000000
-            if c == WHITE:
-                self.border = 0b10000000
-        else:
-            self.border = 0b00000000
+        self.border = BORDERS[self.palette[border]] if border in self.palette else 0b00000000
 
     def set_palette(self, palette):
         self.palette = palette
