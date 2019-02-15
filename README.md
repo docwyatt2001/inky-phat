@@ -1,7 +1,12 @@
 ![Inky pHAT](inky-phat-logo.png)
 http://shop.pimoroni.com/products/inky-phat
 
-**Note** that Inky pHAT uses a new display now (as of early December 2017), and **requires an updated library**. This new library automagically detects the display version, so should work interchangeably with the old and new displays.
+**NOTE** This library has been superceded by the new [Inky Python library](https://github.com/pimoroni/inky) that supports both the Inky pHAT e-paper displays and the larger Inky wHAT e-paper displays, all in one library. The new Inky library does however drop support for the very first version of Inky pHAT, so if you have one of them then you'll need to use this older Inky pHAT library.
+
+You have a newer Inky pHAT if:
+
+* It's any colour other than Red (IE: Yellow and Black/White Inky pHATs were only available as V2)
+* Has a square inductor on the reverse of the board (large compared to the other components, and dark grey)
 
 ## Installing
 

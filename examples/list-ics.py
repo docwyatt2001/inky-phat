@@ -6,6 +6,7 @@ import time
 import calendar
 import icalendar
 import datetime
+import sys
 
 from PIL import Image, ImageFont
 
@@ -16,6 +17,22 @@ print("""Inky pHAT: ICS Calendar Events List
 Lists upcoming events from an ICS Calendar file.
 
 """)
+
+if len(sys.argv) < 2:
+    print("""Usage: {} <colour>
+       Valid colours: red, yellow, black
+""".format(sys.argv[0]))
+    sys.exit(0)
+
+colour = sys.argv[1]
+
+try:
+    inkyphat.set_colour(colour)
+except ValueError:
+    print('Invalid colour "{}" for V{}\n'.format(colour, inkyphat.get_version()))
+    if inkyphat.get_version() == 2:
+        sys.exit(1)
+    print('Defaulting to "red"')
 
 CALENDAR_FILE = "resources/test.ics"
 

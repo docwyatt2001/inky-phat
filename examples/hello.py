@@ -6,20 +6,33 @@ from PIL import ImageFont
 
 import inkyphat
 
-
 print("""Inky pHAT: Hello... my name is:
 
 Use Inky pHAT as a personalised name badge!
-
-Usage: {} <"your name">
 
 """)
 
 #inkyphat.set_rotation(180)
 
-if len(sys.argv) < 2:
-    print("Usage: {} <your name>".format(sys.argv[0]))
+USAGE = """Usage: {} "<your name>" <colour>
+       Valid colours for v2 are: red, yellow or black
+       Inky pHAT v1 is only available in red.
+""".format(sys.argv[0])
+
+if len(sys.argv) < 3:
+    print(USAGE)
     sys.exit(1)
+
+colour = sys.argv[2]
+
+try:
+    inkyphat.set_colour(colour)
+except ValueError:
+    print('Invalid colour "{}" for V{}\n'.format(sys.argv[2], inkyphat.get_version()))
+    if inkyphat.get_version() == 2:
+        print(USAGE)
+        sys.exit(1)
+    print('Defaulting to "red"')
 
 # Show the backdrop image
 

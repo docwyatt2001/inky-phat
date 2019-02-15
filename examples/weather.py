@@ -5,6 +5,7 @@ import glob
 import json
 import time
 import urllib
+import sys
 from PIL import Image, ImageFont
 
 try:
@@ -20,6 +21,22 @@ print("""Inky pHAT: Weather
 Displays weather information for a given location. The default location is Sheffield-on-Sea.
 
 """)
+
+if len(sys.argv) < 2:
+    print("""Usage: {} <colour>
+       Valid colours: red, yellow, black
+""".format(sys.argv[0]))
+    sys.exit(0)
+
+colour = sys.argv[1]
+
+try:
+    inkyphat.set_colour(colour)
+except ValueError:
+    print('Invalid colour "{}" for V{}\n'.format(colour, inkyphat.get_version()))
+    if inkyphat.get_version() == 2:
+        sys.exit(1)
+    print('Defaulting to "red"')
 
 inkyphat.set_border(inkyphat.BLACK)
 
